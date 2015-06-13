@@ -8,7 +8,7 @@ While the replaced text would not react to changes, a common use case may be ins
 
 ## Examples
 
-```js
+```html
 <div>First name: {{ first }}</div>
 <div>Last name: {{ last }}</div>
 <div>Full name: {{ first() + " " + last() }}</div>
