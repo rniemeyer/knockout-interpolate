@@ -1,6 +1,5 @@
 {
     "name": "knockout-interpolate",
-    "version": "0.1.0",
     "main": "dist/knockout-interpolate.min.js",
     "dependencies": {
         "knockout": ">= 2.0"
