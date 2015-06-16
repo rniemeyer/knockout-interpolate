@@ -7,7 +7,9 @@
         factory(ko);
     }
 }(function(ko) {
+    var defaultProvider = new ko.bindingProvider(); // default provider will have parseBindingsString
     var existingProvider = ko.bindingProvider.instance;
+
     var pattern = /\{\{.*?}}/g;
 
     // simple fast match
@@ -26,7 +28,7 @@
                 node.nodeValue = node.nodeValue.replace(pattern, function(match) {
                     expression = match.replace("{{", "").replace("}}", "");
                     // take advantage of existing KO functionality to parse/evaluate binding expression
-                    return ko.unwrap(existingProvider.parseBindingsString("x:" + expression, bindingContext, node).x);
+                    return ko.unwrap(defaultProvider.parseBindingsString("x:" + expression, bindingContext, node).x);
                 });
 
                 return;
