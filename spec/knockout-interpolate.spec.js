@@ -8,6 +8,7 @@ describe("knockout-interpolate", function() {
         container.innerHTML = html;
         content.appendChild(container);
 
+        ko.bindingProvider.instance = ko.bindingProvider.interpolate;
         ko.applyBindings(data || vm, content);
 
         return container;
@@ -19,7 +20,10 @@ describe("knockout-interpolate", function() {
 
         vm = {
             first: "Bob",
-            last: ko.observable("Smith")
+            last: ko.observable("Smith"),
+            trueValue: true,
+            falseValue: false,
+            aValue: 'a'
         };
     });
 
@@ -81,5 +85,44 @@ describe("knockout-interpolate", function() {
         vm.last("Johnson");
 
         test.innerHTML.should.eql("Smith");
+    });
+
+    it("should work with attribute-bound visible = false", function() {
+        var test = insertTestCase("<div class='marker' data-koset='visible: falseValue'></div>");
+
+        test.getElementsByClassName('marker')[0].style.display.should.eql("none");
+    });
+
+    it("should work with attribute-bound visible = true", function() {
+        var test = insertTestCase("<div class='marker' data-koset='visible: trueValue'></div>");
+
+        test.getElementsByClassName('marker')[0].style.display.should.eql("");
+    });
+
+    it("should work with attribute-bound if = false", function() {
+        var test = insertTestCase("<div class='marker' data-koset='if: falseValue'>XXX</div>");
+
+        test.getElementsByClassName('marker')[0].innerHTML.should.eql("");
+    });
+
+    it("should work with attribute-bound if = true", function() {
+        var test = insertTestCase("<div class='marker' data-koset='if: trueValue'>XXX</div>");
+
+        test.getElementsByClassName('marker')[0].innerHTML.should.eql("XXX");
+    });
+
+    it("should work with attribute-bound value", function() {
+        var test = insertTestCase("<select class='marker'><option data-koset='value: aValue'></option></select>");
+
+        var opt = test.getElementsByClassName('marker')[0].firstChild;
+        opt.value.should.eql("a");
+    });
+
+    it("should work with attribute-bound value with text", function() {
+        var test = insertTestCase("<select class='marker'><option data-koset='value: aValue'>{{ last }}</option></select>");
+
+        var opt = test.getElementsByClassName('marker')[0].firstChild;
+        opt.value.should.eql("a");
+        opt.textContent.should.eql("Smith");
     });
 });

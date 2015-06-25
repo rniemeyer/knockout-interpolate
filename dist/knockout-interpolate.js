@@ -1,4 +1,4 @@
-// knockout-interpolate 0.1.0 | (c) 2015 Ryan Niemeyer |  http://www.opensource.org/licenses/mit-license
+// knockout-interpolate 0.1.1 | (c) 2015 Ryan Niemeyer |  http://www.opensource.org/licenses/mit-license
 ;(function(factory) {
     if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
         factory(require("knockout"));
@@ -18,21 +18,42 @@
         return node.nodeType === 3 && node.nodeValue.indexOf("{{") > -1;
     }
 
-    ko.bindingProvider.instance = {
+    function hasInterpolationAttribute(node){
+        return node.attributes && node.attributes['data-koset'];
+    }
+
+    function getValueOfExpression(rawExpression, bindingContext, node){
+        var expression = rawExpression.replace("{{", "").replace("}}", "");
+        // take advantage of existing KO functionality to parse/evaluate binding expression
+        return ko.unwrap(defaultProvider.parseBindingsString("x:" + expression, bindingContext, node).x);
+    }
+
+    function processInterpolationAttribute(node, bindingContext){
+        var bindingValues = defaultProvider.parseBindingsString(node.attributes['data-koset'].value, bindingContext, node);
+        if (bindingValues.hasOwnProperty('visible') && !bindingValues.visible){
+            node.style.display = 'none';
+        }
+        if (bindingValues.hasOwnProperty('if') && !bindingValues['if']){
+            node.innerHTML = '';
+        }
+        if (bindingValues.hasOwnProperty('value')){
+            node.value = bindingValues.value;
+        }
+    }
+
+    ko.bindingProvider.interpolate = {
         nodeHasBindings: function(node) {
-            return hasTextToInterpolate(node) || existingProvider.nodeHasBindings(node);
+            return hasTextToInterpolate(node) || hasInterpolationAttribute(node, this.prefix) || existingProvider.nodeHasBindings(node);
         },
         getBindingAccessors: function(node, bindingContext) {
-            var expression;
-
             if (hasTextToInterpolate(node)) {
                 node.nodeValue = node.nodeValue.replace(pattern, function(match) {
-                    expression = match.replace("{{", "").replace("}}", "");
-                    // take advantage of existing KO functionality to parse/evaluate binding expression
-                    return ko.unwrap(defaultProvider.parseBindingsString("x:" + expression, bindingContext, node).x);
+                    return getValueOfExpression(match, bindingContext, node);
                 });
 
                 return;
+            } else if (hasInterpolationAttribute(node)) {
+                processInterpolationAttribute(node, bindingContext);
             }
 
             return existingProvider.getBindingAccessors(node, bindingContext);
