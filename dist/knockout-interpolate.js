@@ -19,7 +19,7 @@
     }
 
     function hasInterpolationAttribute(node){
-        return node.attributes && node.attributes['data-koset'];
+        return node.attributes && node.attributes["data-koset"];
     }
 
     function getValueOfExpression(rawExpression, bindingContext, node){
@@ -29,14 +29,14 @@
     }
 
     function processInterpolationAttribute(node, bindingContext){
-        var bindingValues = defaultProvider.parseBindingsString(node.attributes['data-koset'].value, bindingContext, node);
-        if (bindingValues.hasOwnProperty('visible') && !bindingValues.visible){
-            node.style.display = 'none';
+        var bindingValues = defaultProvider.parseBindingsString(node.attributes["data-koset"].value, bindingContext, node);
+        if (bindingValues.hasOwnProperty("visible") && !bindingValues.visible){
+            node.style.display = "none";
         }
-        if (bindingValues.hasOwnProperty('if') && !bindingValues['if']){
-            node.innerHTML = '';
+        if (bindingValues.hasOwnProperty("if") && !bindingValues["if"]){
+            node.innerHTML = "";
         }
-        if (bindingValues.hasOwnProperty('value')){
+        if (bindingValues.hasOwnProperty("value")){
             node.value = bindingValues.value;
         }
     }
