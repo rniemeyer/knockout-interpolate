@@ -13,6 +13,9 @@
     <script>mocha.setup("bdd");</script>
     <script src="../node_modules/knockout/build/output/knockout-latest.debug.js"></script>
     <script src="../src/knockout-interpolate.js"></script>
+	<script>
+		ko.bindingProvider.instance = ko.bindingProvider.interpolate;
+	</script>
     <script src="knockout-interpolate.spec.js"></script>
     <script>
       mocha.run();
