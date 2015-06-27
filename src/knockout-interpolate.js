@@ -29,20 +29,20 @@
 
     function processInterpolationAttribute(node, bindingContext){
         var bindingValues = defaultProvider.parseBindingsString(node.attributes["data-koset"].value, bindingContext, node);
-        if (bindingValues.hasOwnProperty("visible") && !bindingValues.visible){
+        if (bindingValues.hasOwnProperty("visible") && !ko.unwrap(bindingValues.visible)){
             node.style.display = "none";
         }
-        if (bindingValues.hasOwnProperty("if") && !bindingValues["if"]){
+        if (bindingValues.hasOwnProperty("if") && !ko.unwrap(bindingValues["if"])){
             node.innerHTML = "";
         }
         if (bindingValues.hasOwnProperty("value")){
-            node.value = bindingValues.value;
+            node.value = ko.unwrap(bindingValues.value);
         }
     }
 
     ko.bindingProvider.interpolate = {
         nodeHasBindings: function(node) {
-            return hasTextToInterpolate(node) || hasInterpolationAttribute(node, this.prefix) || existingProvider.nodeHasBindings(node);
+            return hasTextToInterpolate(node) || hasInterpolationAttribute(node) || existingProvider.nodeHasBindings(node);
         },
         getBindingAccessors: function(node, bindingContext) {
             if (hasTextToInterpolate(node)) {

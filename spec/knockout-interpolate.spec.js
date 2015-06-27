@@ -23,7 +23,10 @@ describe("knockout-interpolate", function() {
             last: ko.observable("Smith"),
             trueValue: true,
             falseValue: false,
-            aValue: 'a'
+            aValue: 'a',
+            trueValueObs: ko.observable(true),
+            falseValueObs: ko.observable(false),
+            aValueObs: ko.observable('a')
         };
     });
 
@@ -87,6 +90,9 @@ describe("knockout-interpolate", function() {
         test.innerHTML.should.eql("Smith");
     });
 
+    //--------------------------------attributes tests--------------------------------------------------
+    //------------------------------------attribute visible -------------------------------------------
+
     it("should work with attribute-bound visible = false", function() {
         var test = insertTestCase("<div class='marker' data-koset='visible: falseValue'></div>");
 
@@ -98,6 +104,20 @@ describe("knockout-interpolate", function() {
 
         test.getElementsByClassName("marker")[0].style.display.should.eql("");
     });
+
+    it("should work with attribute-bound visible = false -- observable", function() {
+        var test = insertTestCase("<div class='marker' data-koset='visible: falseValueObs'></div>");
+
+        test.getElementsByClassName("marker")[0].style.display.should.eql("none");
+    });
+
+    it("should work with attribute-bound visible = true -- observable", function() {
+        var test = insertTestCase("<div class='marker' data-koset='visible: trueValueObs'></div>");
+
+        test.getElementsByClassName("marker")[0].style.display.should.eql("");
+    });
+
+    //------------------------------------attribute if -------------------------------------------
 
     it("should work with attribute-bound if = false", function() {
         var test = insertTestCase("<div class='marker' data-koset='if: falseValue'>XXX</div>");
@@ -111,6 +131,20 @@ describe("knockout-interpolate", function() {
         test.getElementsByClassName("marker")[0].innerHTML.should.eql("XXX");
     });
 
+    it("should work with attribute-bound if = false -- observable", function() {
+        var test = insertTestCase("<div class='marker' data-koset='if: falseValueObs'>XXX</div>");
+
+        test.getElementsByClassName("marker")[0].innerHTML.should.eql("");
+    });
+
+    it("should work with attribute-bound if = true -- observable", function() {
+        var test = insertTestCase("<div class='marker' data-koset='if: trueValueObs'>XXX</div>");
+
+        test.getElementsByClassName("marker")[0].innerHTML.should.eql("XXX");
+    });
+
+    //------------------------------------attribute value --------------------------------------------------
+
     it("should work with attribute-bound value", function() {
         var test = insertTestCase("<select class='marker'><option data-koset='value: aValue'></option></select>");
 
@@ -120,6 +154,21 @@ describe("knockout-interpolate", function() {
 
     it("should work with attribute-bound value with text", function() {
         var test = insertTestCase("<select class='marker'><option data-koset='value: aValue'>{{ last }}</option></select>");
+
+        var opt = test.getElementsByClassName("marker")[0].firstChild;
+        opt.value.should.eql("a");
+        opt.textContent.should.eql("Smith");
+    });
+
+    it("should work with attribute-bound value -- observable", function() {
+        var test = insertTestCase("<select class='marker'><option data-koset='value: aValueObs'></option></select>");
+
+        var opt = test.getElementsByClassName("marker")[0].firstChild;
+        opt.value.should.eql("a");
+    });
+
+    it("should work with attribute-bound value with text -- observable", function() {
+        var test = insertTestCase("<select class='marker'><option data-koset='value: aValueObs'>{{ last }}</option></select>");
 
         var opt = test.getElementsByClassName("marker")[0].firstChild;
         opt.value.should.eql("a");
