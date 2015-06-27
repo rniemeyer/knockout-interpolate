@@ -21,3 +21,7 @@ The library also allows similar one-way bindings that are not tracked and do not
 <select><option data-koset='value: z'></option></select>
 
 ```
+
+Once you've loaded the library, you enable it like so
+
+`ko.bindingProvider.instance = ko.bindingProvider.interpolate;`
