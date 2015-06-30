@@ -22,6 +22,6 @@ The library also allows similar one-way bindings that are not tracked and do not
 
 ```
 
-Once you've loaded the library, you enable it like so
+Once you've loaded the library, you enable it like:
 
 `ko.bindingProvider.instance = ko.bindingProvider.interpolate;`
