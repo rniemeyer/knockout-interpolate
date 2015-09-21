@@ -6,7 +6,7 @@ This library augments Knockout's default binding provider by adding support for 
 
 While the replaced text would not react to changes, a common use case may be inside of a container that is bound using the `template` or `with` binding such that the entire area would get swapped out. Values support context variables (`$root`, `$parent`, etc.) and expressions. For interpolation that converts to a containerless binding check out: http://mbest.github.io/knockout.punches/.
 
-The library also allows similar one-way bindings that are not tracked and do not update using the data-koset attribute.  The syntax is the same as data-bind, and currently supports visible, if, and value bindings.
+The library also allows similar one-way bindings that are not tracked and do not update using the data-koset attribute.  The syntax is the same as data-bind, and currently supports visible, if, value and attr bindings.
 
 ## Examples
 
@@ -19,9 +19,9 @@ The library also allows similar one-way bindings that are not tracked and do not
 <div data-koset='visible: x'></div>
 <div data-koset='if: y'>XXX</div>
 <select><option data-koset='value: z'></option></select>
-
+<a data-koset="attr: { href: '#contacts/details/' + id }">{{ name }}</a>
 ```
 
-Once you've loaded the library, you enable it like so
+Once you've loaded the library, you enable it like:
 
 `ko.bindingProvider.instance = ko.bindingProvider.interpolate;`

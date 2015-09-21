@@ -174,4 +174,33 @@ describe("knockout-interpolate", function() {
         opt.value.should.eql("a");
         opt.textContent.should.eql("Smith");
     });
+
+    //------------------------------------attribute attr --------------------------------------------------
+
+    it("should set title attr", function() {
+        var test = insertTestCase("<a class='anchor-first' data-koset='attr: { title: first }'></a>");
+
+        var titleValue = test.getElementsByClassName("anchor-first")[0].getAttribute('title');
+
+        titleValue.should.eql("Bob");
+    });
+
+    it("should set target attr in ternary true", function() {
+        var attrBinding = "attr: { target: first == 'Bob' ? '_blank' : '' }";
+        var test = insertTestCase("<a class='anchor-first' data-koset='attr: { target: first == \"Bob\" ? \"_blank\" : \"\" }'></a>");
+
+        var titleValue = test.getElementsByClassName("anchor-first")[0].getAttribute("target");
+
+        titleValue.should.eql("_blank");
+    });
+
+    it("should set target attr in ternary false", function() {
+        var attrBinding = "attr: { target: first == 'Bob' ? '_blank' : '' }";
+        var test = insertTestCase("<a class='anchor-first' data-koset='attr: { target: first == \"BobX\" ? \"_blank\" : \"\" }'></a>");
+
+        var titleValue = test.getElementsByClassName("anchor-first")[0].getAttribute("target");
+
+        titleValue.should.eql("");
+    });
+
 });
