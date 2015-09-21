@@ -38,6 +38,11 @@
         if (bindingValues.hasOwnProperty("value")){
             node.value = ko.unwrap(bindingValues.value);
         }
+        if (bindingValues.hasOwnProperty("attr")){
+            Object.keys(bindingValues.attr).forEach(function(attrName){
+                node.setAttribute(attrName, bindingValues.attr[attrName]);
+            });
+        }
     }
 
     ko.bindingProvider.interpolate = {
