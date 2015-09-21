@@ -1,4 +1,4 @@
-// knockout-interpolate 0.1.1 | (c) 2015 Ryan Niemeyer |  http://www.opensource.org/licenses/mit-license
+// knockout-interpolate 0.2.0 | (c) 2015 Ryan Niemeyer |  http://www.opensource.org/licenses/mit-license
 ;(function(factory) {
     if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
         factory(require("knockout"));
