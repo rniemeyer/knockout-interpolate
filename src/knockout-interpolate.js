@@ -17,17 +17,17 @@
         return node.nodeType === 3 && node.nodeValue.indexOf("{{") > -1;
     }
 
-    function hasInterpolationAttribute(node) {
+    function hasInterpolationAttribute(node){
         return node.attributes && node.attributes["data-koset"];
     }
 
-    function getValueOfExpression(rawExpression, bindingContext, node) {
+    function getValueOfExpression(rawExpression, bindingContext, node){
         var expression = rawExpression.replace("{{", "").replace("}}", "");
         // take advantage of existing KO functionality to parse/evaluate binding expression
         return ko.unwrap(defaultProvider.parseBindingsString("x:" + expression, bindingContext, node).x);
     }
 
-    function processInterpolationAttribute(node, bindingContext) {
+    function processInterpolationAttribute(node, bindingContext){
         var bindingValues = defaultProvider.parseBindingsString(node.attributes["data-koset"].value, bindingContext, node);
         if (bindingValues.hasOwnProperty("visible") && !ko.unwrap(bindingValues.visible)){
             node.style.display = "none";
@@ -37,6 +37,11 @@
         }
         if (bindingValues.hasOwnProperty("value")){
             node.value = ko.unwrap(bindingValues.value);
+        }
+        if (bindingValues.hasOwnProperty("attr")){
+            Object.keys(bindingValues.attr).forEach(function(attrName){
+                node.setAttribute(attrName, bindingValues.attr[attrName]);
+            });
         }
     }
 
