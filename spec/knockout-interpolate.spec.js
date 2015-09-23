@@ -185,6 +185,14 @@ describe("knockout-interpolate", function() {
                 titleValue.should.eql("Bob");
             });
 
+            it("should unwrap observables", function() {
+                var test = insertTestCase("<a class='anchor-first' data-koset='attr: { title: last }'></a>");
+
+                var titleValue = test.getElementsByClassName("anchor-first")[0].getAttribute('title');
+
+                titleValue.should.eql("Smith");
+            });
+
             it("should set target attr in ternary true", function() {
                 var test = insertTestCase("<a class='anchor-first' data-koset='attr: { target: first == \"Bob\" ? \"_blank\" : \"\" }'></a>");
 

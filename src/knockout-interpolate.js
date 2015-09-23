@@ -40,7 +40,7 @@
         }
         if (bindingValues.hasOwnProperty("attr")) {
             ko.utils.objectForEach(bindingValues.attr, function(name, value) {
-                node.setAttribute(name, value);
+                node.setAttribute(name, ko.unwrap(value));
             });
         }
     }
