@@ -1,4 +1,4 @@
-// knockout-interpolate 0.2.0 | (c) 2015 Ryan Niemeyer |  http://www.opensource.org/licenses/mit-license
+// knockout-interpolate 0.3.0 | (c) 2015 Ryan Niemeyer |  http://www.opensource.org/licenses/mit-license
 ;(function(factory) {
     if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
         factory(require("knockout"));
@@ -30,18 +30,18 @@
 
     function processInterpolationAttribute(node, bindingContext){
         var bindingValues = defaultProvider.parseBindingsString(node.attributes["data-koset"].value, bindingContext, node);
-        if (bindingValues.hasOwnProperty("visible") && !ko.unwrap(bindingValues.visible)){
+        if (bindingValues.hasOwnProperty("visible") && !ko.unwrap(bindingValues.visible)) {
             node.style.display = "none";
         }
-        if (bindingValues.hasOwnProperty("if") && !ko.unwrap(bindingValues["if"])){
+        if (bindingValues.hasOwnProperty("if") && !ko.unwrap(bindingValues["if"])) {
             node.innerHTML = "";
         }
-        if (bindingValues.hasOwnProperty("value")){
+        if (bindingValues.hasOwnProperty("value")) {
             node.value = ko.unwrap(bindingValues.value);
         }
-        if (bindingValues.hasOwnProperty("attr")){
-            Object.keys(bindingValues.attr).forEach(function(attrName){
-                node.setAttribute(attrName, bindingValues.attr[attrName]);
+        if (bindingValues.hasOwnProperty("attr")) {
+            ko.utils.objectForEach(bindingValues.attr, function(name, value) {
+                node.setAttribute(name, ko.unwrap(value));
             });
         }
     }
