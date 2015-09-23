@@ -90,117 +90,116 @@ describe("knockout-interpolate", function() {
         test.innerHTML.should.eql("Smith");
     });
 
-    //--------------------------------attributes tests--------------------------------------------------
-    //------------------------------------attribute visible -------------------------------------------
+    describe("attribute tests", function() {
+        describe("visible attribute", function() {
+            it("should work with attribute-bound visible = false", function() {
+                var test = insertTestCase("<div class='marker' data-koset='visible: falseValue'></div>");
 
-    it("should work with attribute-bound visible = false", function() {
-        var test = insertTestCase("<div class='marker' data-koset='visible: falseValue'></div>");
+                test.getElementsByClassName("marker")[0].style.display.should.eql("none");
+            });
 
-        test.getElementsByClassName("marker")[0].style.display.should.eql("none");
+            it("should work with attribute-bound visible = true", function() {
+                var test = insertTestCase("<div class='marker' data-koset='visible: trueValue'></div>");
+
+                test.getElementsByClassName("marker")[0].style.display.should.eql("");
+            });
+
+            it("should work with attribute-bound visible = false -- observable", function() {
+                var test = insertTestCase("<div class='marker' data-koset='visible: falseValueObs'></div>");
+
+                test.getElementsByClassName("marker")[0].style.display.should.eql("none");
+            });
+
+            it("should work with attribute-bound visible = true -- observable", function() {
+                var test = insertTestCase("<div class='marker' data-koset='visible: trueValueObs'></div>");
+
+                test.getElementsByClassName("marker")[0].style.display.should.eql("");
+            });
+        });
+
+        describe("if attribute", function() {
+            it("should work with attribute-bound if = false", function() {
+                var test = insertTestCase("<div class='marker' data-koset='if: falseValue'>XXX</div>");
+
+                test.getElementsByClassName("marker")[0].innerHTML.should.eql("");
+            });
+
+            it("should work with attribute-bound if = true", function() {
+                var test = insertTestCase("<div class='marker' data-koset='if: trueValue'>XXX</div>");
+
+                test.getElementsByClassName("marker")[0].innerHTML.should.eql("XXX");
+            });
+
+            it("should work with attribute-bound if = false -- observable", function() {
+                var test = insertTestCase("<div class='marker' data-koset='if: falseValueObs'>XXX</div>");
+
+                test.getElementsByClassName("marker")[0].innerHTML.should.eql("");
+            });
+
+            it("should work with attribute-bound if = true -- observable", function() {
+                var test = insertTestCase("<div class='marker' data-koset='if: trueValueObs'>XXX</div>");
+
+                test.getElementsByClassName("marker")[0].innerHTML.should.eql("XXX");
+            });
+        });
+
+        describe("value attribute", function() {
+
+            it("should work with attribute-bound value", function() {
+                var test = insertTestCase("<select class='marker'><option data-koset='value: aValue'></option></select>");
+
+                var opt = test.getElementsByClassName("marker")[0].firstChild;
+                opt.value.should.eql("a");
+            });
+
+            it("should work with attribute-bound value with text", function() {
+                var test = insertTestCase("<select class='marker'><option data-koset='value: aValue'>{{ last }}</option></select>");
+
+                var opt = test.getElementsByClassName("marker")[0].firstChild;
+                opt.value.should.eql("a");
+                opt.textContent.should.eql("Smith");
+            });
+
+            it("should work with attribute-bound value -- observable", function() {
+                var test = insertTestCase("<select class='marker'><option data-koset='value: aValueObs'></option></select>");
+
+                var opt = test.getElementsByClassName("marker")[0].firstChild;
+                opt.value.should.eql("a");
+            });
+
+            it("should work with attribute-bound value with text -- observable", function() {
+                var test = insertTestCase("<select class='marker'><option data-koset='value: aValueObs'>{{ last }}</option></select>");
+
+                var opt = test.getElementsByClassName("marker")[0].firstChild;
+                opt.value.should.eql("a");
+                opt.textContent.should.eql("Smith");
+            });
+        });
+
+        describe("attr attribute", function() {
+            it("should set title attr", function() {
+                var test = insertTestCase("<a class='anchor-first' data-koset='attr: { title: first }'></a>");
+
+                var titleValue = test.getElementsByClassName("anchor-first")[0].getAttribute('title');
+
+                titleValue.should.eql("Bob");
+            });
+
+            it("should set target attr in ternary true", function() {
+                var test = insertTestCase("<a class='anchor-first' data-koset='attr: { target: first == \"Bob\" ? \"_blank\" : \"\" }'></a>");
+
+                var titleValue = test.getElementsByClassName("anchor-first")[0].getAttribute("target");
+
+                titleValue.should.eql("_blank");
+            });
+
+            it("should set target attr in ternary false", function() {
+                var test = insertTestCase("<a class='anchor-first' data-koset='attr: { target: first == \"BobX\" ? \"_blank\" : \"\" }'></a>");
+
+                var titleValue = test.getElementsByClassName("anchor-first")[0].getAttribute("target");
+
+                titleValue.should.eql("");
+            });
+        });
     });
-
-    it("should work with attribute-bound visible = true", function() {
-        var test = insertTestCase("<div class='marker' data-koset='visible: trueValue'></div>");
-
-        test.getElementsByClassName("marker")[0].style.display.should.eql("");
-    });
-
-    it("should work with attribute-bound visible = false -- observable", function() {
-        var test = insertTestCase("<div class='marker' data-koset='visible: falseValueObs'></div>");
-
-        test.getElementsByClassName("marker")[0].style.display.should.eql("none");
-    });
-
-    it("should work with attribute-bound visible = true -- observable", function() {
-        var test = insertTestCase("<div class='marker' data-koset='visible: trueValueObs'></div>");
-
-        test.getElementsByClassName("marker")[0].style.display.should.eql("");
-    });
-
-    //------------------------------------attribute if -------------------------------------------
-
-    it("should work with attribute-bound if = false", function() {
-        var test = insertTestCase("<div class='marker' data-koset='if: falseValue'>XXX</div>");
-
-        test.getElementsByClassName("marker")[0].innerHTML.should.eql("");
-    });
-
-    it("should work with attribute-bound if = true", function() {
-        var test = insertTestCase("<div class='marker' data-koset='if: trueValue'>XXX</div>");
-
-        test.getElementsByClassName("marker")[0].innerHTML.should.eql("XXX");
-    });
-
-    it("should work with attribute-bound if = false -- observable", function() {
-        var test = insertTestCase("<div class='marker' data-koset='if: falseValueObs'>XXX</div>");
-
-        test.getElementsByClassName("marker")[0].innerHTML.should.eql("");
-    });
-
-    it("should work with attribute-bound if = true -- observable", function() {
-        var test = insertTestCase("<div class='marker' data-koset='if: trueValueObs'>XXX</div>");
-
-        test.getElementsByClassName("marker")[0].innerHTML.should.eql("XXX");
-    });
-
-    //------------------------------------attribute value --------------------------------------------------
-
-    it("should work with attribute-bound value", function() {
-        var test = insertTestCase("<select class='marker'><option data-koset='value: aValue'></option></select>");
-
-        var opt = test.getElementsByClassName("marker")[0].firstChild;
-        opt.value.should.eql("a");
-    });
-
-    it("should work with attribute-bound value with text", function() {
-        var test = insertTestCase("<select class='marker'><option data-koset='value: aValue'>{{ last }}</option></select>");
-
-        var opt = test.getElementsByClassName("marker")[0].firstChild;
-        opt.value.should.eql("a");
-        opt.textContent.should.eql("Smith");
-    });
-
-    it("should work with attribute-bound value -- observable", function() {
-        var test = insertTestCase("<select class='marker'><option data-koset='value: aValueObs'></option></select>");
-
-        var opt = test.getElementsByClassName("marker")[0].firstChild;
-        opt.value.should.eql("a");
-    });
-
-    it("should work with attribute-bound value with text -- observable", function() {
-        var test = insertTestCase("<select class='marker'><option data-koset='value: aValueObs'>{{ last }}</option></select>");
-
-        var opt = test.getElementsByClassName("marker")[0].firstChild;
-        opt.value.should.eql("a");
-        opt.textContent.should.eql("Smith");
-    });
-
-    //------------------------------------attribute attr --------------------------------------------------
-
-    it("should set title attr", function() {
-        var test = insertTestCase("<a class='anchor-first' data-koset='attr: { title: first }'></a>");
-
-        var titleValue = test.getElementsByClassName("anchor-first")[0].getAttribute('title');
-
-        titleValue.should.eql("Bob");
-    });
-
-    it("should set target attr in ternary true", function() {
-        var attrBinding = "attr: { target: first == 'Bob' ? '_blank' : '' }";
-        var test = insertTestCase("<a class='anchor-first' data-koset='attr: { target: first == \"Bob\" ? \"_blank\" : \"\" }'></a>");
-
-        var titleValue = test.getElementsByClassName("anchor-first")[0].getAttribute("target");
-
-        titleValue.should.eql("_blank");
-    });
-
-    it("should set target attr in ternary false", function() {
-        var attrBinding = "attr: { target: first == 'Bob' ? '_blank' : '' }";
-        var test = insertTestCase("<a class='anchor-first' data-koset='attr: { target: first == \"BobX\" ? \"_blank\" : \"\" }'></a>");
-
-        var titleValue = test.getElementsByClassName("anchor-first")[0].getAttribute("target");
-
-        titleValue.should.eql("");
-    });
-
 });
