@@ -1,6 +1,6 @@
 {
   "name": "knockout-interpolate",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Knockout binding provider that does a one-time replacement of {{ expression }} blocks with data from the view model.",
   "repository": {
     "type": "git",
