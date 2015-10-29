@@ -25,6 +25,7 @@ gulp.task("lint", function() {
 var testFiles = [
     "node_modules/chai/chai.js",
     "node_modules/knockout/build/output/knockout-latest.js",
+    "node_modules/jquery/dist/jquery.min.js",
     "dist/knockout-interpolate.min.js",
     "spec/*.spec.js"
 ];
