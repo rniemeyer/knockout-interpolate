@@ -44,6 +44,15 @@
                 node.setAttribute(name, ko.unwrap(value));
             });
         }
+        if (bindingValues.hasOwnProperty("css")) {
+            ko.utils.objectForEach(bindingValues.css, function(name, value) {
+                if (ko.unwrap(value)){
+                    node.classList.add(name);
+                } else {
+                    node.classList.remove(name);
+                }
+            });
+        }
     }
 
     ko.bindingProvider.interpolate = {
