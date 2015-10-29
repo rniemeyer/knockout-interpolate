@@ -9,6 +9,16 @@
 }(function(ko) {
     var defaultProvider = new ko.bindingProvider(); // default provider will have parseBindingsString
     var existingProvider = ko.bindingProvider.instance;
+    var hasClassList = document.createElement('div').classList;
+
+    var addClass = hasClassList
+        ? function(node, name){ node.classList.add(name); }
+        : function(node, name){ typeof jQuery === 'function' && jQuery(node).addClass(name); };
+
+    var removeClass = hasClassList
+        ? function(node, name){ node.classList.remove(name); }
+        : function(node, name){ typeof jQuery === 'function' && jQuery(node).removeClass(name); };
+
 
     var pattern = /\{\{.*?}}/g;
 
@@ -41,6 +51,15 @@
         if (bindingValues.hasOwnProperty("attr")) {
             ko.utils.objectForEach(bindingValues.attr, function(name, value) {
                 node.setAttribute(name, ko.unwrap(value));
+            });
+        }
+        if (bindingValues.hasOwnProperty("css")) {
+            ko.utils.objectForEach(bindingValues.css, function(name, value) {
+                if (ko.unwrap(value)){
+                    addClass(node, name)
+                } else {
+                    removeClass(node, name);
+                }
             });
         }
     }
