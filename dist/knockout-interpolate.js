@@ -1,4 +1,4 @@
-// knockout-interpolate 0.3.0 | (c) 2015 Ryan Niemeyer |  http://www.opensource.org/licenses/mit-license
+// knockout-interpolate 0.4.0 | (c) 2015 Ryan Niemeyer |  http://www.opensource.org/licenses/mit-license
 ;(function(factory) {
     if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
         factory(require("knockout"));
@@ -10,15 +10,15 @@
 }(function(ko) {
     var defaultProvider = new ko.bindingProvider(); // default provider will have parseBindingsString
     var existingProvider = ko.bindingProvider.instance;
-    var hasClassList = document.createElement('div').classList;
+    var hasClassList = document.createElement("div").classList;
 
     var addClass = hasClassList
         ? function(node, name){ node.classList.add(name); }
-        : function(node, name){ typeof jQuery === 'function' && jQuery(node).addClass(name); };
+        : function(node, name){ typeof jQuery === "function" && jQuery(node).addClass(name); };
 
     var removeClass = hasClassList
         ? function(node, name){ node.classList.remove(name); }
-        : function(node, name){ typeof jQuery === 'function' && jQuery(node).removeClass(name); };
+        : function(node, name){ typeof jQuery === "function" && jQuery(node).removeClass(name); };
 
 
     var pattern = /\{\{.*?}}/g;
